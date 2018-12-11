@@ -47,10 +47,10 @@
 
 ## How to Open An Issue
 
-* Click the Issues tab at the top of the repository
-* Look/Search through the list of open issues to see if an existing issue matches yours
-  * If you find one that matches, or is close, please add your comments/suggestions/feedback to that issue
-* If you don't see an existing issue that matches yours, please open a new issue using the green New Issue button.  Label your issue appropriately (the labes should be self explanatory)
+> * Click the Issues tab at the top of the repository
+> * Look/Search through the list of open issues to see if an existing issue matches yours
+>  * If you find one that matches, or is close, please add your comments/suggestions/feedback to that issue
+> * If you don't see an existing issue that matches yours, please open a new issue using the green New Issue button.  Label your issue appropriately (the labes should be self explanatory)
 
 ## I want to contribute my own code, templates, scripts, whatever
 
