@@ -1,18 +1,18 @@
 # Introduction
 
-## Welcome to the CCoE QuickStarts GitHub Repository
+## Welcome to the Sirius Cloud GitHub Repository
 
->We are thrilled that you would like to contribute to the CCoE Quickstarts GitHub Repository.  Your contributions enable Sirius to provide high quality technical demonstrations and support internally and externally.
+>We are thrilled that you would like to contribute to the Sirius Cloud GitHub Repository.  Your contributions enable Sirius to provide high quality technical demonstrations and support internally and externally.
 
-### Why Guidelines
+## Why Guidelines
 
 >Following these guidelines will ensure that your contributions to the repository are as impactful as possible while using as little of other people's time as possible
 
-### What kinds of contributions are we looking and hoping for
+## What kinds of contributions are we looking and hoping for
 
 > Fixing typo's, updating documentation, submitting issues and bugs, ideas for new quickstarts, demos, scripts, templates, etc.  
 
-### What are we not looking for
+## What are we not looking for
 
 > Saving this because I hope I need to fill it in later
 
@@ -23,10 +23,20 @@
 # Your First Contribution
 
 > Unsure where to begin contributing? You can start by looking through help-wanted issues on the issues tab
-> Beginner issues - issues which should only require a few lines of code, and a test or two.
+> Azure Issues - Issues which are specific to the Azure Cloud platform
+> AWS Issues - Issues which are specific to the AWS Cloud Platform
+> QuickStart Issues - Issues which are related to QuickStart scenarios
+> Scripts Issues - Issues which are related to scripts or scripting
 
-> I have no idea what editor I should use or how to do any of this.  Help!?
-> We recommend using Visual Studio Code (VS Code).  [There is a great getting started tutorial here](https://azurecitadel.github.io/guides/vscode/)
+## I have no idea what editor I should use or how to do any of this.  Help!?
+
+> We recommend using Visual Studio Code (VS Code).  
+> * Azure:  There is a great getting started tutorial [here](https://azurecitadel.github.io/guides/vscode/)
+> * AWS:  TBD
+
+> Complete the Introduction to GitHub Course [Here](https://lab.github.com/githubtraining/introduction-to-github)
+
+> Further resources can be found in the [Getting Started readme]
 
 ### Bonus points: Add a link to a resource for people who have never contributed to open source before.
 Here are a couple of friendly tutorials you can include: http://makeapullrequest.com/ and http://www.firsttimersonly.com/
