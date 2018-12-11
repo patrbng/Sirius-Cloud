@@ -1,0 +1,147 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "connections_azureblob_name": {
+            "value": null
+        },
+        "topics_ccoesample_name": {
+            "value": null
+        },
+        "connections_azureeventgrid_name": {
+            "value": null
+        },
+        "workflows_delete60DayBlobs_name": {
+            "value": null
+        },
+        "storageAccounts_ccoesample_name": {
+            "value": null
+        },
+        "workspaces_ccoe_name": {
+            "value": null
+        },
+        "solutions_AzureActivity(ccoe)_name": {
+            "value": null
+        },
+        "solutions_LogicAppsManagement(ccoe)_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_General|StaleComputers_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|AllEvents_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|AllSyslog_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|WarningEvents_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_General|dataTypeDistribution_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|EventsByEventLog_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|EventsByEventsID_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|Show404PagesList_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|ServerRestartTime_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|EventsByEventSource_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|AllSyslogByFacility_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|CountOfWarningEvents_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|ListAllIISLogEntries_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|AllSyslogsWithErrors_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|AllSyslogByProcessName_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_General|dataPointsPerManagementGroup_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_General|AlphabeticallySortedComputers_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|IISLogEntriesForClientIP_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|EventsWithStartedinEventID_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|EventsInOMBetween2000to3000_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|DisplayBreakdownRespondCodes_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|NoOfConnectionsToOMSDKService_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|FindMaximumTimeTakenForEachPage_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|CountIISLogEntriesHTTPUserAgent_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|TotalBytesSentByClientIPAddress_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|AverageHTTPRequestTimeHTTPMethod_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|CountOfIISLogEntriesByURLForHost_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|CountIISLogEntriesClientIPAddress_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|CountIISLogEntriesHTTPRequestMethod_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|TotalBytesReceivedByEachIISComputer_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|WindowsFireawallPolicySettingsChanged_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|ShowServersThrowingInternalServerError_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|AverageHTTPRequestTimeByClientIPAddress_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|TotalBytesReceivedByEachAzureRoleInstance_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|CountOfIISLogEntriesByURLRequestedByClient_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|CountOfIISLogEntriesByHostRequestedByClient_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|TotalBytesRespondedToClientsByClientIPAddress_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|WindowsFireawallPolicySettingsChangedByMachines_name": {
+            "value": null
+        },
+        "savedSearches_LogManagement(ccoe)_LogManagement|TotalBytesRespondedToClientsByEachIISServerIPAddress_name": {
+            "value": null
+        }
+    }
+}
