@@ -19,3 +19,5 @@
 * Authoring ARM Templates Workshop (10h) [Here](https://azurecitadel.github.io/workshops/arm/)
 
 ## AWS Resources
+
+* [Up Your CloudFormation Game with VS Code](https://hodgkins.io/up-your-cloudformation-game-with-vscode)
