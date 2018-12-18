@@ -1,6 +1,6 @@
 # **SCENARIO**
 
-Customer is looking for an Azure solution which can function like a traditional FTP Server.  The customer (and some of their own vendors) need a place to store .CSV files.  These .CSV files will then be accessed by a SaaS application, uploaded into that system, and processed.  The customer has the following additional requirements/asks:
+Customer would like to deploy a Windows Active Directory VM in Azure, connected to their on-premises environment through an Azure VPN Gateway
 
 * 60 Days of file retention
 * .CSV files must be encrypted at rest and in transit
