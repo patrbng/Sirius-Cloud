@@ -17,7 +17,7 @@ $job = 'job.' + ((Get-Date).ToUniversalTime()).tostring("MMddyy.HHmm")
 Test-AzResourceGroupDeployment -ResourceGroupName $rg -TemplateFile $template -TemplateParameterFile $parms -Mode Incremental -Verbose `
 -LocalGatewayIPAddress "<your external ip address>" -LocalGatewayAddressSpace "<your internal address space>"
 
-#If the test deployment fails and you need more information save the information to a variable $test.  Look at the results in the $test.
+#If the test deployment fails and you need more information save the information to a variable $test.  Look at the results in  $test.details
 $test = Test-AzResourceGroupDeployment -ResourceGroupName $rg -TemplateFile $template -TemplateParameterFile $parms -Mode Incremental -Verbose `
 -LocalGatewayIPAddress "<your external ip address>" -LocalGatewayAddressSpace "<your internal address space>"
 
