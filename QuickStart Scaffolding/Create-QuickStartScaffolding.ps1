@@ -3,7 +3,7 @@
 #This script takes input from the user for QuickStart name and local path for where to create the files
 
 #Name of the QuickStart
-$QSName = "TestQS"
+$QSName = "VPN GW-vNet-AD VM"
 #Replace Azure with AWS for AWS QuickStarts.  This is the location you have cloned the GitHub repository to on your local machine
 $Path = "C:\SiriusCloud\Sirius-Cloud\Azure QuickStarts" 
 
