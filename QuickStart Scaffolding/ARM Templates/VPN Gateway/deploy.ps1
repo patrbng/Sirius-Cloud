@@ -14,20 +14,16 @@ $parms = "local path to template parameters file"
 $job = 'job.' + ((Get-Date).ToUniversalTime()).tostring("MMddyy.HHmm")
 
 #Test the deployment
-Test-AzResourceGroupDeployment -ResourceGroupName $rg -TemplateFile $template -TemplateParameterFile $parms -Mode Incremental -Verbose
+Test-AzResourceGroupDeployment -ResourceGroupName $rg -TemplateFile $template -TemplateParameterFile $parms -Mode Incremental -Verbose `
+-LocalGatewayIPAddress "<your external ip address>" -LocalGatewayAddressSpace "<your internal address space>"
+
+#If the test deployment fails and you need more information save the information to a variable $test.  Look at the results in the $test.
+$test = Test-AzResourceGroupDeployment -ResourceGroupName $rg -TemplateFile $template -TemplateParameterFile $parms -Mode Incremental -Verbose `
+-LocalGatewayIPAddress "<your external ip address>" -LocalGatewayAddressSpace "<your internal address space>"
 
 #Deploy the template
-New-AzResourceGroupDeployment -Name $job -ResourceGroupName $rg -TemplateFile $template -TemplateParameterFile $parms -Mode Incremental -DeploymentDebugLogLevel All -Verbose
-
-#If the template utilizes outputs these commands can be ued to extract the values
-#$outputs = (New-AzResourceGroupDeployment -Name $job -TemplateParameterFile $parms -TemplateFile $template -ResourceGroupName $rg).Outputs
-#$hostName = $Outputs.hostname.Value
-#$sshCommand = $Outputs.sshCommand.Value
-
-#These commands can be used to find the values post deployment if you didn't save the deployment into a variable
-#(Get-AzResourceGroupDeployment -ResourceGroupName $rg).Outputs
-#for this example an output was named vmref
-#(Get-AzResourceGroupDeployment -ResourceGroupName $rg).Outputs.vmref.value
+New-AzResourceGroupDeployment -Name $job -ResourceGroupName $rg -TemplateFile $template -TemplateParameterFile $parms -Mode Incremental -DeploymentDebugLogLevel All -Verbose `
+-LocalGatewayIPAddress "<your external ip address>" -LocalGatewayAddressSpace "<your internal address space>"
 
 #Clean up the resources
 Remove-AzResourceGroup -Name $rg 
