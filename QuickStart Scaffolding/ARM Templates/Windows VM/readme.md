@@ -17,3 +17,5 @@
 ## Parameter Values Which Can Be Changed
 
 * Naming Prefix
+* VM Name
+* VM Size

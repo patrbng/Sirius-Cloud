@@ -7,13 +7,36 @@
             "metadata": {
                 "description": "Prefix used for naming resources throughout the template"
             }
+        },
+        "vmName": {
+           "type": "string",
+           "defaultValue": "[concat(parameters('namingPrefix'), '-vm')]",
+           "maxLength": 15,
+           "metadata": {
+                "description": "Name of the VM"
+            }
+        },
+        "vmSize": {
+           "type": "string",
+           "defaultValue": "Standard_B2s",
+           "allowedValues": [
+            "Standard_D2s_v3",
+            "Standard_B1s",
+            "Standard_B1ms",
+            "Standard_B2ms",
+            "Standard_D2_v3",
+            "Standard_A1_v2",
+            "Standard_A2_v2"
+           ],
+           "metadata": {
+                "description": "Size of the VM"
+            }
         }
     },
     "variables": {
         "publicIpName": "[concat(parameters('namingPrefix'), '-ip')]",
         "vNetName": "[concat(parameters('namingPrefix'), '-vnet')]",
-        "nsgName": "[concat(parameters('namingPrefix'), '-nsg')]",
-        "vmName": "[concat(parameters('namingPrefix'), '-vm')]"
+        "nsgName": "[concat(parameters('namingPrefix'), '-nsg')]"
     },
     "resources": [
         {
