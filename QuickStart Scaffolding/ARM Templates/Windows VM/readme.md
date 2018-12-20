@@ -9,6 +9,9 @@
 * Public IP Address for VM
 * Virtual Network with a VMs Subnet
 * Network Security Group for the VM with a firewall rule allowing for RDP access to the VM
+* Managed OS Disk for the VM
+* NIC for the VM attached to the NSG
+* Storage account for VM diagnostics
 
 ## Information Required to Provision Resources
 
@@ -19,3 +22,6 @@
 * Naming Prefix
 * VM Name
 * VM Size
+* Administrator Username
+
+## Admin Password is stored in the CCoE Azure KeyVault

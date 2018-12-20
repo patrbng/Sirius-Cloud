@@ -4,8 +4,21 @@
     "parameters": {
         "namingPrefix": {
             "type": "string",
+            "maxLength": 19,
             "metadata": {
                 "description": "Prefix used for naming resources throughout the template"
+            }
+        },
+        "adminUsername": {
+           "type": "string",
+           "metadata": {
+                "description": "Name of the administrator account for the VM"
+            }
+        },
+        "adminPassword": {
+           "type": "securestring",
+           "metadata": {
+                "description": "Password of the administrator account"
             }
         },
         "vmName": {
@@ -36,7 +49,9 @@
     "variables": {
         "publicIpName": "[concat(parameters('namingPrefix'), '-ip')]",
         "vNetName": "[concat(parameters('namingPrefix'), '-vnet')]",
-        "nsgName": "[concat(parameters('namingPrefix'), '-nsg')]"
+        "nsgName": "[concat(parameters('namingPrefix'), '-nsg')]",
+        "stgDiagAccountname": "[toLower(concat(parameters('namingPrefix'), '-diag'))]",
+        "nicName": "[concat(parameters('namingPrefix'), '-nic')]"
     },
     "resources": [
         {
@@ -82,6 +97,9 @@
             "apiVersion": "2018-08-01",
             "name": "[variables('vNetName')]",
             "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkSecurityGroups/', variables('nsgName'))]"
+            ],
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
@@ -92,11 +110,123 @@
                     {
                         "name": "VMs",
                         "properties": {
-                            "addressPrefix": "10.6.0.0/28"
+                            "addressPrefix": "10.6.0.0/28",
+                            "networkSecurityGroup":{
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
+                            }
                         }
                     }
                 ]
             }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2018-07-01",
+            "name": "[variables('stgDiagAccountname')]",
+            "location": "[resourceGroup().location]",
+            "sku":{
+                "name":"Standard_LRS"
+            },
+            "kind":"StorageV2"
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2018-08-01",
+            "name": "NetworkInterface1",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/virtualNetworks/', variables('vNetName'))]",
+                "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIpName'))]"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIpName'))]"
+                            },
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks', variables('vNetName'), '/subnets/VMs')]"
+                            },
+                            "privateIPAddressVersion":"IPv4",
+                            "primary":true 
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "apiVersion": "2018-06-01",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('vmName')]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[concat('Microsoft.Storage/storageAccounts/', variables('stgDiagAccountname'))]",
+                "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[parameters('vmSize')]"
+                },
+                "osProfile": {
+                    "computerName": "[parameters('vmName')]",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "2016-Datacenter",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType":"Windows",
+                        "name": "[concat(parameters('vmName'), '-os')]",
+                        "createOption":"FromImage",
+                        "caching":"ReadWrite",
+                        "managedDisk":{
+                            "storageAccountType":"Standard_LRS"
+                        },
+                        "diskSizeGB":127
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true,
+                        "storageUri": "[concat('https://', variables('stgDiagAccountName'), '.blob.core.windows.net')]"
+                    }
+                }
+            },
+            "resources": [
+                {
+                    "type": "extensions",
+                    "name": "[concat(parameters('vmName'), 'Microsoft.Insights.VMDiagnosticsSettings')]",
+                    "apiVersion": "2018-06-01",
+                    "location": "[resourceGroup().location]",
+                    "dependsOn": [
+                        "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
+                    ],
+                    "properties": {
+                        "publisher": "Microsoft.Azure.Diagnostics",
+                        "type": "IaaSDiagnostics",
+                        "typeHandlerVersion": "1.5",
+                        "autoUpgradeMinorVersion": true,
+                        "settings": {
+                            
+                        }
+                    }
+                }
+            ]
         }
     ],
     "outputs": {}
