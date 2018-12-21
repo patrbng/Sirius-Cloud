@@ -4,6 +4,17 @@
     "parameters": {
         "namingPrefix": {
             "value": "ccoetest"
+        },
+        "adminUsername": {
+            "value": "windowsadmin"
+        },
+        "adminPassword": {
+            "reference": {
+                "keyVault": {
+                    "id": "/subscriptions/b70f6ccc-ecf0-4206-8b3a-7ebcb6e08fc4/resourceGroups/CCoE-RG/providers/Microsoft.KeyVault/vaults/ccoe-keyvault"
+                },
+                "secretName": "demo-windowsvm-adminpassword"
+            }
         }
     }
 }
