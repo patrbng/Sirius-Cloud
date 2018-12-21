@@ -1,4 +1,4 @@
-# VPN Gateway
+# Windows VM
 
 * This is a base Windows VM ARM Template that deploys a Server 2016 Windows VM and its required resources only
 * This template can be used by itself or as part of a larger deployment

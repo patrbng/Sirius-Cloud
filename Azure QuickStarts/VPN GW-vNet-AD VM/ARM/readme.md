@@ -15,25 +15,33 @@ This is an example readme for how to use this ARM template
 * You can modify the resource names, parameters, variables as you see fit
 * You can also use this a base template for your scenario and customize as needed
 
-## **How to demo the solution to the customer using this template**
+## Resources Provisioned In This Template
 
-* Pre-Requisites
-  * Download this repository to your machine
-  * Install Azure Storage Explorer
-  * Install Azure PowerShell Module
-  * Download Generate-RandomFiles.ps1 from Azure Script Repo
-  * Create Resource Group and deploy the template
-  * Configure the LogicApp with your desired check interval
-    * This LogicApp is configured for a 1 minute interval check
+* VPN Gateway
+* Local Network Gateway
+* Public IP Address for VPN Gateway
+* Virtual Network
+  * Gateway and VM Subnets for the Virtual Network
+* Network Security Group for the VM Subnet
+* Connection between VPN Gateway and Local Network Gateway
+* 
 
-* Demo Steps
-  * Generate some random files with the PowerShell Script (this can also be done beforehand)
-  * Connect Azure Storage Explorer to the storage account
-  * Walkthrough of the resources created to make the magic happen
-    * Talk about how Event Hubs, Logic Apps and the Storage Account all work together
-  * Generate a bunch of random files with the script
-  * Upload the files to the storage account using storage explorer
-  * Go to the Portal and the Logic App and watch the triggers kick off
-    * Dive into the triggers and show the detail
-  * Refresh the storage account and show that the files have been deleted
-  * If you have done this a bunch of times in preparation you can also go into the LogAnalytics workspace and show some queries
+## Information Required to Provision Resources
+
+* Naming prefix for the resources
+* External IP Address for the Local Network Gateway
+* Address Space for the Local Network Gateway
+
+## Parameter Values Which Can Be Changed
+
+* VPN Gateway SKU
+* Pre-Shared Key for VPN Connection
+* Naming Prefix
+
+## **Pre-Requisites**
+
+* Download this repository to your machine
+* Install Azure PowerShell Module
+* Create Resource Group and deploy the template
+
+### **Note:  The VPN Gateway will take 30-45 minutes to provision the first time the template is deployed**
