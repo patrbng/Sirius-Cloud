@@ -24,7 +24,6 @@ This is an example readme for how to use this ARM template
   * Gateway and VM Subnets for the Virtual Network
 * Network Security Group for the VM Subnet
 * Connection between VPN Gateway and Local Network Gateway
-* 
 
 ## Information Required to Provision Resources
 
