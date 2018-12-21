@@ -59,7 +59,7 @@
             }
         },
         "localGatewayIpAddress": {
-            "type": "string",
+            "type": "array",
             "metadata": {
                 "description": "External IP address of customer device to connect to"
             }
