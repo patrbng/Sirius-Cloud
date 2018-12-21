@@ -52,7 +52,8 @@
         "vNetName": "[concat(parameters('namingPrefix'), '-vnet')]",
         "nsgName": "[concat(parameters('namingPrefix'), '-nsg')]",
         "stgDiagAccountname": "[toLower(concat(parameters('namingPrefix'), 'diag'))]",
-        "nicName": "[concat(parameters('namingPrefix'), '-nic')]"
+        "nicName": "[concat(parameters('namingPrefix'), '-nic')]",
+        "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('vNetName'), 'VMs')]"
     },
     "resources": [
         {
@@ -149,7 +150,7 @@
                                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIpName'))]"
                             },
                             "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks', variables('vNetName'), '/subnets/VMs')]"
+                                "id": "[variables('subnetRef')]"
                             },
                             "privateIPAddressVersion":"IPv4",
                             "primary":true 
@@ -209,24 +210,6 @@
                 }
             },
             "resources": [
-                {
-                    "type": "extensions",
-                    "name": "[concat(parameters('vmName'), 'Microsoft.Insights.VMDiagnosticsSettings')]",
-                    "apiVersion": "2018-06-01",
-                    "location": "[resourceGroup().location]",
-                    "dependsOn": [
-                        "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
-                    ],
-                    "properties": {
-                        "publisher": "Microsoft.Azure.Diagnostics",
-                        "type": "IaaSDiagnostics",
-                        "typeHandlerVersion": "1.5",
-                        "autoUpgradeMinorVersion": true,
-                        "settings": {
-                            
-                        }
-                    }
-                }
             ]
         }
     ],
