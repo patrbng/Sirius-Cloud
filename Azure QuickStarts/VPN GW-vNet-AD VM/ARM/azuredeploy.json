@@ -59,13 +59,13 @@
             }
         },
         "localGatewayIpAddress": {
-            "type": "array",
+            "type": "string",
             "metadata": {
                 "description": "External IP address of customer device to connect to"
             }
         },
         "localGatewayAddressSpace": {
-            "type": "string",
+            "type": "array",
             "metadata": {
                 "description": "IP Address of the customer's internal network in CIDR format"
             }
