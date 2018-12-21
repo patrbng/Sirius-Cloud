@@ -4,27 +4,56 @@
     "parameters": {
         "namingPrefix": {
             "type": "string",
+            "maxLength": 19,
             "metadata": {
                 "description": "Prefix used for naming resources throughout the template"
             }
         },
-        "vpnGatewaySku": {
-            "type": "string",
-            "defaultValue": "VpnGw1",
-            "allowedValues": [
-                "VpnGw1",
-                "VpnGW2",
-                "VpnGW3"
-            ],
-            "metadata": {
-                "description": "Sku of VPN Gateway to Provision"
+        "adminUsername": {
+           "type": "string",
+           "metadata": {
+                "description": "Name of the administrator account for the VM"
+            }
+        },
+        "adminPassword": {
+           "type": "securestring",
+           "metadata": {
+                "description": "Password of the administrator account"
+            }
+        },
+        "vmName": {
+           "type": "string",
+           "defaultValue": "[concat(parameters('namingPrefix'), '-vm')]",
+           "maxLength": 15,
+           "metadata": {
+                "description": "Name of the VM"
+            }
+        },
+        "vmSize": {
+           "type": "string",
+           "defaultValue": "Standard_B2s",
+           "allowedValues": [
+            "Standard_D2s_v3",
+            "Standard_B1s",
+            "Standard_B1ms",
+            "Standard_B2s",
+            "Standard_B2ms",
+            "Standard_D2_v3",
+            "Standard_A1_v2",
+            "Standard_A2_v2"
+           ],
+           "metadata": {
+                "description": "Size of the VM"
             }
         }
     },
     "variables": {
-        "vpnGatewayName": "[concat(parameters('namingPrefix'), '-gw')]",
-        "publicIpName": "[concat(parameters('namingPrefix'), '-gwip')]",
-        "vNetName": "[concat(parameters('namingPrefix'), '-vnet')]"
+        "publicIpName": "[concat(parameters('namingPrefix'), '-ip')]",
+        "vNetName": "[concat(parameters('namingPrefix'), '-vnet')]",
+        "nsgName": "[concat(parameters('namingPrefix'), '-nsg')]",
+        "stgDiagAccountname": "[toLower(concat(parameters('namingPrefix'), 'diag'))]",
+        "nicName": "[concat(parameters('namingPrefix'), '-nic')]",
+        "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('vNetName'), 'VMs')]"
     },
     "resources": [
         {
@@ -42,10 +71,37 @@
             }
         },
         {
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2018-08-01",
+            "name": "[variables('nsgName')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "RDP",
+                        "properties": {
+                            "description": "Allows RDP access over port 3389",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "3389",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound"
+                        }
+                    }
+                ]
+            }
+        },
+        {
             "type": "Microsoft.Network/virtualNetworks",
             "apiVersion": "2018-08-01",
             "name": "[variables('vNetName')]",
             "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkSecurityGroups/', variables('nsgName'))]"
+            ],
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
@@ -54,59 +110,107 @@
                 },
                 "subnets": [
                     {
-                        "name": "GatewaySubnet",
+                        "name": "VMs",
                         "properties": {
-                            "addressPrefix": "10.6.0.0/28"
+                            "addressPrefix": "10.6.0.0/28",
+                            "networkSecurityGroup":{
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
+                            }
                         }
                     }
                 ]
             }
         },
         {
-            "type": "Microsoft.Network/virtualNetworkGateways",
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2018-07-01",
+            "name": "[variables('stgDiagAccountname')]",
+            "location": "[resourceGroup().location]",
+            "sku":{
+                "name":"Standard_LRS"
+            },
+            "kind":"StorageV2"
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2018-08-01",
-            "name": "[variables('vpnGatewayName')]",
+            "name": "[variables('nicName')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[concat('Microsoft.Network/PublicIpAddresses/', variables('publicIpName'))]",
-                "[concat('Microsoft.Network/virtualNetworks/', variables('vNetName'))]"
+                "[concat('Microsoft.Network/virtualNetworks/', variables('vNetName'))]",
+                "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIpName'))]"
             ],
             "properties": {
                 "ipConfigurations": [
                     {
-                        "name": "default",
+                        "name": "ipconfig1",
                         "properties": {
                             "privateIPAllocationMethod": "Dynamic",
                             "publicIPAddress": {
-                                "id": "[resourceID('Microsoft.Network/PublicIpAddresses', variables('publicIpName'))]"
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIpName'))]"
                             },
                             "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('vNetName'), 'GatewaySubnet')]"
-                            }
+                                "id": "[variables('subnetRef')]"
+                            },
+                            "privateIPAddressVersion":"IPv4",
+                            "primary":true 
                         }
                     }
-                ],
-                "sku": {
-                    "name": "[parameters('vpnGatewaySku')]",
-                    "tier": "[parameters('vpnGatewaySku')]",
-                    "capacity": 2
+                ]
+            }
+        },
+        {
+            "apiVersion": "2018-06-01",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('vmName')]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[concat('Microsoft.Storage/storageAccounts/', variables('stgDiagAccountname'))]",
+                "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[parameters('vmSize')]"
                 },
-                "gatewayType": "Vpn",
-                "vpnType": "RouteBased",
-                "enableBgp": false,
-                "activeActive": false,
-                "vpnClientConfiguration": {
-                    "vpnClientProtocols": [
-                        "SSTP",
-                        "IKEv2"
+                "osProfile": {
+                    "computerName": "[parameters('vmName')]",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "2016-Datacenter",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType":"Windows",
+                        "name": "[concat(parameters('vmName'), '-os')]",
+                        "createOption":"FromImage",
+                        "caching":"ReadWrite",
+                        "managedDisk":{
+                            "storageAccountType":"Standard_LRS"
+                        },
+                        "diskSizeGB":127
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
+                        }
                     ]
                 },
-                "bgpSettings": {
-                    "asn": 65515,
-                    "bgpPeeringAddress": "10.6.0.14",
-                    "peerWeight": 0
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true,
+                        "storageUri": "[concat('https://', variables('stgDiagAccountName'), '.blob.core.windows.net')]"
+                    }
                 }
-            }
+            },
+            "resources": [
+            ]
         }
     ],
     "outputs": {}
