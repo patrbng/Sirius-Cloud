@@ -1,4 +1,4 @@
-# **Sample ARM Template Quickstart Readme**
+# ** VPN Gateway with Hybrid Connectivity and Active Directory VM Quickstart Readme**
 
 This is an example readme for how to use this ARM template
 
@@ -51,6 +51,8 @@ This is an example readme for how to use this ARM template
 * Install Azure PowerShell Module
 * Create Resource Group and deploy the template
 
-### **Note:  The VPN Gateway will take 30-45 minutes to provision the first time the template is deployed**
+## **Other**
 
-## **Admin Password is stored in the CCoE Azure KeyVault**
+* The VPN Gateway will take 30-45 minutes to provision the first time the template is deployed
+* Admin Password is stored in the CCoE Azure KeyVault
+* VM does not deploy the Diagnostics Extension
