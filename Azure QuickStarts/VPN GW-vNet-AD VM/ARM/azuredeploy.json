@@ -252,11 +252,6 @@
                         "SSTP",
                         "IKEv2"
                     ]
-                },
-                "bgpSettings": {
-                    "asn": 65515,
-                    "bgpPeeringAddress": "10.6.0.14",
-                    "peerWeight": 0
                 }
             }
         },
