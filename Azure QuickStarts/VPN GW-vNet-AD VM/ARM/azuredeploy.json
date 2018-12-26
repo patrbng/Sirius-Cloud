@@ -76,6 +76,13 @@
             "metadata": {
                 "description": "Pre-Shared Key used to create connection between VPN Gateways"
             }
+        },
+        "forceUpdateTag": {
+           "type": "string",
+           "defaultValue": "1.0",
+           "metadata": {
+                "description": "Used to force the DSC Configuration to run every time this template is deployed"
+            }
         }
 
     },
@@ -340,7 +347,31 @@
             },
             "resources": [
             ]
-        }
+        },
+        {
+            "name": "[concat(parameters('vmName'), '/Microsoft.PowerShell.DSC')]",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "apiVersion": "2018-06-01",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
+            ],
+            "properties": {
+              "publisher": "Microsoft.PowerShell",
+              "type": "DSC",
+              "typeHandlerVersion": "2.76",
+              "autoUpgradeMinorVersion": true,
+              "forceUpdateTag": "[parameters('forceUpdateTag')]",
+              "settings": {
+                  "configurationArguments": {
+                      "wmfVersion": "latest",
+                      "Url": "https://ccoe.blob.core.windows.net/siriusdsc/dsc.zip",
+                      "Script": "dsc.ps1",
+                      "Function": "InstallFeatures"
+                  }
+              }
+            }
+          }
     ],
     "outputs": {}
 }
