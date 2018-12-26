@@ -14,3 +14,13 @@ Get-DscResource -Module xActiveDirectory
 
 #Get the properties of one of the resources in the module
 (Get-DscResource -Module xActiveDirectory -Name xADDomain).Properties
+
+#Paths to check on Azure VMs when using the DSC Extension
+#Check this path to verify the extension installed properly
+# C:\Packages\Plugins\Microsoft.PowerShell.DSC\<version number>
+#Check this path for status of the extension runs
+# C:\Packages\Plugins\Microsoft.PowerShell.DSC\<version number>\status
+#Check this path for other logs about the runs made by the extension
+#C:\WindowsAzure\Logs\Plugins\Microsoft.PowerShell.DSC\<version number>
+
+

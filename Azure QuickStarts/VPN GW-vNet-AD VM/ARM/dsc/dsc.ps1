@@ -22,7 +22,7 @@ configuration InstallFeatures {
         {
             Ensure = "Present"
             Name = "RSAT-AD-PowerShell"
-            DependsOn = "[WindowsFeature]ActiveDirectory, [WindowsFeature]ADTools"
+            DependsOn = "[WindowsFeature]ADTools"
         }
 
         WindowsFeature InstallDNS
