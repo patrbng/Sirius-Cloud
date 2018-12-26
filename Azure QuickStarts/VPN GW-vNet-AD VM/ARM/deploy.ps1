@@ -13,8 +13,6 @@ $parms = "local path to template parameters file"
 #You can give the job a meaningful name if you wish
 $job = 'job.' + ((Get-Date).ToUniversalTime()).tostring("MMddyy.HHmm")
 
-#
-
 #Test the deployment
 Test-AzResourceGroupDeployment -ResourceGroupName $rg -TemplateFile $template -TemplateParameterFile $parms -Mode Incremental -Verbose
 
