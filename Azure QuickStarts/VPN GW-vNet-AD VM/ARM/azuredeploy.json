@@ -10,39 +10,39 @@
             }
         },
         "adminUsername": {
-           "type": "string",
-           "metadata": {
+            "type": "string",
+            "metadata": {
                 "description": "Name of the administrator account for the VM"
             }
         },
         "adminPassword": {
-           "type": "securestring",
-           "metadata": {
+            "type": "securestring",
+            "metadata": {
                 "description": "Password of the administrator account"
             }
         },
         "vmName": {
-           "type": "string",
-           "defaultValue": "[concat(parameters('namingPrefix'), '-vm')]",
-           "maxLength": 15,
-           "metadata": {
+            "type": "string",
+            "defaultValue": "[concat(parameters('namingPrefix'), '-vm')]",
+            "maxLength": 15,
+            "metadata": {
                 "description": "Name of the VM"
             }
         },
         "vmSize": {
-           "type": "string",
-           "defaultValue": "Standard_B2s",
-           "allowedValues": [
-            "Standard_D2s_v3",
-            "Standard_B1s",
-            "Standard_B1ms",
-            "Standard_B2s",
-            "Standard_B2ms",
-            "Standard_D2_v3",
-            "Standard_A1_v2",
-            "Standard_A2_v2"
-           ],
-           "metadata": {
+            "type": "string",
+            "defaultValue": "Standard_B2s",
+            "allowedValues": [
+                "Standard_D2s_v3",
+                "Standard_B1s",
+                "Standard_B1ms",
+                "Standard_B2s",
+                "Standard_B2ms",
+                "Standard_D2_v3",
+                "Standard_A1_v2",
+                "Standard_A2_v2"
+            ],
+            "metadata": {
                 "description": "Size of the VM"
             }
         },
@@ -78,13 +78,12 @@
             }
         },
         "forceUpdateTag": {
-           "type": "string",
-           "defaultValue": "1.0",
-           "metadata": {
+            "type": "string",
+            "defaultValue": "[uniqueString(resourceGroup().id, deployment().name)]",
+            "metadata": {
                 "description": "Used to force the DSC Configuration to run every time this template is deployed"
             }
         }
-
     },
     "variables": {
         "gatewayPublicIpName": "[concat(parameters('namingPrefix'), '-gwip')]",
@@ -167,7 +166,7 @@
                 "subnets": [
                     {
                         "name": "GatewaySubnet",
-                        "properties":{
+                        "properties": {
                             "addressPrefix": "10.6.0.0/28"
                         }
                     },
@@ -175,7 +174,7 @@
                         "name": "VMs",
                         "properties": {
                             "addressPrefix": "10.6.0.128/25",
-                            "networkSecurityGroup":{
+                            "networkSecurityGroup": {
                                 "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
                             }
                         }
@@ -188,10 +187,10 @@
             "apiVersion": "2018-07-01",
             "name": "[variables('stgDiagAccountname')]",
             "location": "[resourceGroup().location]",
-            "sku":{
-                "name":"Standard_LRS"
+            "sku": {
+                "name": "Standard_LRS"
             },
-            "kind":"StorageV2"
+            "kind": "StorageV2"
         },
         {
             "type": "Microsoft.Network/networkInterfaces",
@@ -214,8 +213,8 @@
                             "subnet": {
                                 "id": "[variables('subnetRef')]"
                             },
-                            "privateIPAddressVersion":"IPv4",
-                            "primary":true 
+                            "privateIPAddressVersion": "IPv4",
+                            "primary": true
                         }
                     }
                 ]
@@ -321,14 +320,14 @@
                         "version": "latest"
                     },
                     "osDisk": {
-                        "osType":"Windows",
+                        "osType": "Windows",
                         "name": "[concat(parameters('vmName'), '-os')]",
-                        "createOption":"FromImage",
-                        "caching":"ReadWrite",
-                        "managedDisk":{
-                            "storageAccountType":"Standard_LRS"
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "storageAccountType": "Standard_LRS"
                         },
-                        "diskSizeGB":127
+                        "diskSizeGB": 127
                     }
                 },
                 "networkProfile": {
@@ -345,8 +344,7 @@
                     }
                 }
             },
-            "resources": [
-            ]
+            "resources": []
         },
         {
             "name": "[concat(parameters('vmName'), '/Microsoft.PowerShell.DSC')]",
@@ -357,21 +355,21 @@
                 "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
             ],
             "properties": {
-              "publisher": "Microsoft.PowerShell",
-              "type": "DSC",
-              "typeHandlerVersion": "2.76",
-              "autoUpgradeMinorVersion": true,
-              "forceUpdateTag": "[parameters('forceUpdateTag')]",
-              "settings": {
-                  "configurationArguments": {
-                      "wmfVersion": "latest",
-                      "Url": "https://ccoe.blob.core.windows.net/siriusdsc/dsc.zip",
-                      "Script": "dsc.ps1",
-                      "Function": "InstallFeatures"
-                  }
-              }
+                "publisher": "Microsoft.PowerShell",
+                "type": "DSC",
+                "typeHandlerVersion": "2.76",
+                "autoUpgradeMinorVersion": true,
+                "forceUpdateTag": "[parameters('forceUpdateTag')]",
+                "settings": {
+                    "wmfVersion": "latest",
+                    "configuration": {
+                        "Url": "https://ccoe.blob.core.windows.net/siriusdsc/dsc.zip",
+                        "Script": "dsc.ps1",
+                        "Function": "InstallFeatures"
+                    }
+                }
             }
-          }
+        }
     ],
     "outputs": {}
 }
