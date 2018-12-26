@@ -24,4 +24,7 @@
 * VM Size
 * Administrator Username
 
-## Admin Password is stored in the CCoE Azure KeyVault
+## Other
+
+* Admin Password is stored in the CCoE Azure KeyVault
+* VM does not deploy the Diagnostics Extension

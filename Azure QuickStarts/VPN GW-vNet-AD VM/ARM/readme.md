@@ -1,4 +1,4 @@
-# **Sample ARM Template Quickstart Readme**
+# ** VPN Gateway with Hybrid Connectivity and Active Directory VM Quickstart Readme**
 
 This is an example readme for how to use this ARM template
 
@@ -22,8 +22,13 @@ This is an example readme for how to use this ARM template
 * Public IP Address for VPN Gateway
 * Virtual Network
   * Gateway and VM Subnets for the Virtual Network
-* Network Security Group for the VM Subnet
 * Connection between VPN Gateway and Local Network Gateway
+* Windows VM
+* Public IP Address for VM
+* Network Security Group (NSG) for the VM with a firewall rule allowing for RDP access to the VM
+* Managed OS Disk for the VM
+* NIC for the VM attached to the NSG
+* Storage account for VM diagnostics
 
 ## Information Required to Provision Resources
 
@@ -36,6 +41,9 @@ This is an example readme for how to use this ARM template
 * VPN Gateway SKU
 * Pre-Shared Key for VPN Connection
 * Naming Prefix
+* VM Name
+* VM Size
+* Administrator Username
 
 ## **Pre-Requisites**
 
@@ -43,4 +51,8 @@ This is an example readme for how to use this ARM template
 * Install Azure PowerShell Module
 * Create Resource Group and deploy the template
 
-### **Note:  The VPN Gateway will take 30-45 minutes to provision the first time the template is deployed**
+## **Other**
+
+* The VPN Gateway will take 30-45 minutes to provision the first time the template is deployed
+* Admin Password is stored in the CCoE Azure KeyVault
+* VM does not deploy the Diagnostics Extension
