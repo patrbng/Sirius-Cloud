@@ -16,7 +16,7 @@ $job = 'job.' + ((Get-Date).ToUniversalTime()).tostring("MMddyy.HHmm")
 #Test the deployment
 Test-AzResourceGroupDeployment -ResourceGroupName $rg -TemplateFile $template -TemplateParameterFile $parms -Mode Incremental -Verbose
 
-#If the test deployment fails and you need more information save the information to a variable $test.  Look at the results in  $test.details
+#If the test deployment fails and you need more information save the information to a variable $test.  Look at the results in  $test.details or $test.message
 $test = Test-AzResourceGroupDeployment -ResourceGroupName $rg -TemplateFile $template -TemplateParameterFile $parms -Mode Incremental -Verbose
 $test.Details
 
